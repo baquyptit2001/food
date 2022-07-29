@@ -38,7 +38,6 @@
 import AdminLayout from "../../../Layouts/AdminLayout.vue";
 import {ShoppingCartOutlined, DownOutlined, PlusOutlined} from "@ant-design/icons-vue";
 import {Link} from '@inertiajs/inertia-vue3'
-import $ from 'jquery'
 
 export default {
     name: "Index",

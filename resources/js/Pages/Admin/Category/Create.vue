@@ -90,7 +90,8 @@ export default {
                         description: 'Thêm mới danh mục thành công',
                     });
                 },
-                onError: () => {
+                onError: (e) => {
+                    console.log(e);
                     notification.error({
                         message: 'Thất bại',
                         description: 'Thêm mới danh mục thất bại',

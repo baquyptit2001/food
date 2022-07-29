@@ -26,12 +26,12 @@
                 <a-sub-menu key="sub2">
                     <template #title>
             <span>
-              <team-outlined/>
-              <span>Team</span>
+              <apple-outlined />
+              <span>Food</span>
             </span>
                     </template>
-                    <a-menu-item key="6">Team 1</a-menu-item>
-                    <a-menu-item key="8">Team 2</a-menu-item>
+                    <Link :href="route('products.index')"><a-menu-item key="5">List</a-menu-item></Link>
+                    <Link :href="route('products.create')"><a-menu-item key="6">Create</a-menu-item></Link>
                 </a-sub-menu>
                 <a-menu-item key="9">
                     <file-outlined/>
@@ -65,6 +65,7 @@ import {
     TeamOutlined,
     FileOutlined,
     HomeOutlined,
+    AppleOutlined,
     FolderOutlined
 } from '@ant-design/icons-vue';
 import {defineComponent, ref} from 'vue';
@@ -79,6 +80,7 @@ export default defineComponent({
         FileOutlined,
         HomeOutlined,
         FolderOutlined,
+        AppleOutlined,
         Link
     },
     name: 'AdminLayout',
