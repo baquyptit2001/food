@@ -30,9 +30,12 @@
                 <a-typography-title :level="5">
                     Giá món ăn
                 </a-typography-title>
-                <a-input-number v-model:value="form.price" placeholder="Giá món ăn" class="w-100">
+                <a-input-number v-model:value="form.price" placeholder="Giá món ăn" class="w-100" :max="999999999" @change="price_change">
                     <template #addonAfter>VNĐ</template>
                 </a-input-number>
+                <div class="mt-2">
+                    {{ price_text }}
+                </div>
             </div>
             <div class="col-md-6 mt-2">
                 <a-typography-title :level="5">
@@ -73,6 +76,7 @@ import {useForm} from '@inertiajs/inertia-vue3'
 import {PlusOutlined, RollbackOutlined, SettingOutlined} from "@ant-design/icons-vue";
 import {notification} from "ant-design-vue";
 import {Link} from '@inertiajs/inertia-vue3'
+import { getText } from 'number-to-text-vietnamese';
 
 export default {
     name: "Create",
@@ -94,6 +98,11 @@ export default {
             type: Array,
             required: true,
         },
+    },
+    data() {
+        return {
+            price_text: ''
+        };
     },
     mounted() {
         this.$refs.layout.setSelected(["6"]);
@@ -142,6 +151,13 @@ export default {
             }
             this.form.post(route('products.store'), {})
         },
+        price_change() {
+            if (this.form.price != undefined || !(isNaN(this.form.price))) {
+                this.price_text = getText(this.form.price, ', ');
+            } else {
+                this.price_text = '';
+            }
+        }
     }
 }
 </script>

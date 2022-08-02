@@ -16,6 +16,7 @@ export default {
         this.$refs.layout.setSelected(["5"]);
         this.$refs.layout.setBreadItems(["Food", "List"])
         document.title = "Danh sách món ăn"
+        console.log(this.products.data);
     },
 }
 </script>
