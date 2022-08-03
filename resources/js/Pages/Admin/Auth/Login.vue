@@ -1,0 +1,73 @@
+<template>
+    <AdminAuthLayout ref="layout">
+        <a-form :label-col="labelCol" :wrapper-col="wrapperCol">
+            <a-form-item label="Email">
+                <a-input v-model:value="form.email"/>
+            </a-form-item>
+            <a-form-item label="Password">
+                <a-input type="password" v-model:value="form.password"/>
+            </a-form-item>
+            <a-form-item :wrapper-col="{ span: 13, offset: 9 }">
+                <a-button shape="round" type="primary" @click.prevent="login">Đăng nhập</a-button>
+                <Link :href="route('auth.register.page')"><a-button shape="round" style="margin-left: 10px">Đăng ký</a-button></Link>
+            </a-form-item>
+        </a-form>
+    </AdminAuthLayout>
+</template>
+
+<script>
+import AdminAuthLayout from "../../../Layouts/AdminAuthLayout.vue";
+import {useForm, Link} from '@inertiajs/inertia-vue3'
+import {notification} from "ant-design-vue";
+import {getErrorMessage} from "../../../Helper/stringHelper";
+
+export default {
+    name: "login",
+    components: {AdminAuthLayout, Link},
+    mounted() {
+        document.title = "Đăng nhập";
+        this.$refs.layout.title = "Đăng nhập";
+    },
+    setup() {
+        const form = useForm({
+            email: '',
+            password: '',
+        });
+
+        return {
+            form,
+            labelCol: {
+                span: 4,
+            },
+            wrapperCol: {
+                span: 18,
+            }
+        };
+    },
+    methods: {
+        login() {
+            this.form.post(route('auth.login'), {
+                onSuccess: () => {
+                    notification.success({
+                        message: 'Đăng nhập thành công',
+                        description: 'Hê lô bờ rô',
+                    });
+                },
+                onError: (errors) => {
+                    notification.error({
+                        message: 'Đăng nhập thất bại',
+                        description: getErrorMessage(errors),
+                    });
+                }
+            });
+        },
+        reset() {
+            this.form.reset();
+        }
+    }
+}
+</script>
+
+<style scoped>
+
+</style>

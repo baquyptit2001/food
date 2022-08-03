@@ -17,7 +17,13 @@ class Product extends Model
         'description',
         'category_id',
         'price',
+        'discount',
     ];
+
+    public function getRouteKeyName()
+    {
+        return 'slug';
+    }
 
     public function category()
     {

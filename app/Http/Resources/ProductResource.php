@@ -19,8 +19,11 @@ class ProductResource extends JsonResource
             'name' => $this->name,
             'description' => $this->description,
             'price' => $this->price,
-            'category' => new CategoryResource($this->category),
-            'images' => env('IMAGE_URL') . $this->image,
+            'category' => $this->category->name,
+            'image' => env('IMAGE_URL') . $this->image,
+            'slug' => $this->slug,
+            'discount' => $this->discount,
+            'category_id' => $this->category_id,
         ];
     }
 }

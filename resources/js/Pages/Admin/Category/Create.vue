@@ -1,4 +1,5 @@
 <template>
+    <Head></Head>
     <AdminLayout ref="layout">
         <a-typography-title>
             Thêm mới danh mục
@@ -56,11 +57,11 @@ import AdminLayout from "../../../Layouts/AdminLayout.vue";
 import {useForm} from '@inertiajs/inertia-vue3'
 import {PlusOutlined, RollbackOutlined} from "@ant-design/icons-vue";
 import {notification} from "ant-design-vue";
-import {Link} from '@inertiajs/inertia-vue3'
+import {Link, Head} from '@inertiajs/inertia-vue3'
 
 export default {
     name: "Create",
-    components: {AdminLayout, PlusOutlined, RollbackOutlined, Link},
+    components: {AdminLayout, PlusOutlined, RollbackOutlined, Link, Head},
     setup() {
         const form = useForm({
             name: '',
@@ -68,8 +69,13 @@ export default {
             parent_id: null,
         });
 
+        const filterOption = (input, option) => {
+            return option.value.toLowerCase().indexOf(input.toLowerCase()) >= 0;
+        };
+
         return {
             form,
+            filterOption,
         };
     },
     props: {

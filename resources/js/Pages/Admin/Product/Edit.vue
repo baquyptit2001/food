@@ -66,14 +66,14 @@
                     Ảnh món ăn
                 </a-typography-title>
                 <input class="form-control" id="productImage" type="file" @change="uploadImage($event)">
-                <img id="preview" src="@/assets/bun-rieu-4.jpg" class="w-100 mt-3"/>
+                <img id="preview" :src="this.product.data.image" class="w-100 mt-3"/>
             </div>
         </div>
-        <a-button type="primary" shape="round" size="middle" class="mt-3" @click="addProduct">
+        <a-button type="primary" shape="round" size="middle" class="mt-3" @click="updateProduct">
             <template #icon>
                 <plus-outlined/>
             </template>
-            Thêm mới
+            Cập nhật
         </a-button>
         <Link :href="route('products.index')">
             <a-button shape="round" size="middle" class="mt-3 ms-3">
@@ -97,7 +97,7 @@ import {Link} from '@inertiajs/inertia-vue3'
 import {getText} from 'number-to-text-vietnamese';
 
 export default {
-    name: "Create",
+    name: "Edit",
     components: {AdminLayout, PlusOutlined, RollbackOutlined, Link, SettingOutlined},
     setup() {
         const form = useForm({
@@ -117,6 +117,10 @@ export default {
             type: Array,
             required: true,
         },
+        product: {
+            type: Object,
+            required: true,
+        },
     },
     data() {
         return {
@@ -128,16 +132,21 @@ export default {
         this.$refs.layout.setSelected(["6"]);
         this.$refs.layout.setBreadItems(["Món ăn", "Thêm mới"]);
         document.title = "Thêm mới món ăn";
-        this.price_change();
+        this.form.name = this.product.data.name;
+        this.form.price = this.product.data.price;
+        this.form.description = this.product.data.description;
+        this.form.category_id = this.product.data.category_id;
+        this.form.discount = this.product.data.discount;
+        this.price_change()
     },
     methods: {
         uploadImage(event) {
             let url = URL.createObjectURL(event.target.files[0]);
             $("#preview").attr("src", url);
         },
-        addProduct() {
+        updateProduct() {
             this.form.image = document.getElementById('productImage').files[0]
-            if (this.form.name == null || this.form.price == null || this.form.image == null || this.form.category_id == null) {
+            if (this.form.name == null || this.form.price == null || this.form.category_id == null) {
                 notification.error({
                     message: "Thông báo",
                     description: "Vui lòng nhập đầy đủ thông tin",
@@ -153,24 +162,42 @@ export default {
                 });
                 return;
             }
-            const validImageTypes = ['image/gif', 'image/jpeg', 'image/png'];
-            if (!validImageTypes.includes(this.form.image.type)) {
-                notification.error({
-                    message: "Thông báo",
-                    description: "Vui lòng chọn đúng định dạng ảnh",
-                    duration: 2,
-                });
-                return;
+            if (this.form.image != null) {
+                const validImageTypes = ['image/gif', 'image/jpeg', 'image/png'];
+                if (!validImageTypes.includes(this.form.image.type)) {
+                    notification.error({
+                        message: "Thông báo",
+                        description: "Vui lòng chọn đúng định dạng ảnh",
+                        duration: 2,
+                    });
+                    return;
+                }
+                if (this.form.image.size > 1048576) {
+                    notification.error({
+                        message: "Thông báo",
+                        description: "Kích thước ảnh quá lớn",
+                        duration: 2,
+                    });
+                    return;
+                }
             }
-            if (this.form.image.size > 1048576) {
-                notification.error({
-                    message: "Thông báo",
-                    description: "Kích thước ảnh quá lớn",
-                    duration: 2,
-                });
-                return;
-            }
-            this.form.post(route('products.store'), {})
+            console.log(this.form);
+            this.form.put(route('products.update', this.product.data.slug), {
+                onSuccess: () => {
+                    notification.success({
+                        message: "Thông báo",
+                        description: "Cập nhật thành công",
+                        duration: 2,
+                    });
+                },
+                onError: () => {
+                    notification.error({
+                        message: "Thông báo",
+                        description: "Cập nhật thất bại",
+                        duration: 2,
+                    });
+                }
+            })
         },
         price_change() {
             if (this.form.price != undefined || !(isNaN(this.form.price))) {

@@ -15,28 +15,46 @@
                 </a-menu-item>
                 <a-sub-menu key="sub1">
                     <template #title>
-            <span>
-              <folder-outlined />
-              <span>Category</span>
-            </span>
+                        <span>
+                          <folder-outlined/>
+                          <span>Category</span>
+                        </span>
                     </template>
-                    <Link :href="route('categories.index')"><a-menu-item key="3">List</a-menu-item></Link>
-                    <Link :href="route('categories.create')"><a-menu-item key="4">Create</a-menu-item></Link>
+                    <Link :href="route('categories.index')">
+                        <a-menu-item key="3">List</a-menu-item>
+                    </Link>
+                    <Link :href="route('categories.create')">
+                        <a-menu-item key="4">Create</a-menu-item>
+                    </Link>
                 </a-sub-menu>
                 <a-sub-menu key="sub2">
                     <template #title>
-            <span>
-              <apple-outlined />
-              <span>Food</span>
-            </span>
+                        <span>
+                          <apple-outlined/>
+                          <span>Food</span>
+                        </span>
                     </template>
-                    <Link :href="route('products.index')"><a-menu-item key="5">List</a-menu-item></Link>
-                    <Link :href="route('products.create')"><a-menu-item key="6">Create</a-menu-item></Link>
+                    <Link :href="route('products.index')">
+                        <a-menu-item key="5">List</a-menu-item>
+                    </Link>
+                    <Link :href="route('products.create')">
+                        <a-menu-item key="6">Create</a-menu-item>
+                    </Link>
                 </a-sub-menu>
-                <a-menu-item key="9">
-                    <file-outlined/>
-                    <span>File</span>
-                </a-menu-item>
+                <a-sub-menu key="sub3">
+                    <template #title>
+                        <span>
+                          <user-outlined />
+                          <span>Account</span>
+                        </span>
+                    </template>
+                    <Link :href="route('categories.index')">
+                        <a-menu-item key="7">Profile</a-menu-item>
+                    </Link>
+                    <Link :href="route('auth.logout')">
+                        <a-menu-item key="8">Logout</a-menu-item>
+                    </Link>
+                </a-sub-menu>
             </a-menu>
         </a-layout-sider>
         <a-layout>

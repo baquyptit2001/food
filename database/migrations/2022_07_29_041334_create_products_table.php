@@ -20,7 +20,8 @@ return new class extends Migration
             $table->string('image');
             $table->string('description')->nullable();
             $table->unsignedBigInteger('category_id')->nullable();
-            $table->float('price', 8, 2)->default(0);
+            $table->float('price', 8, 2);
+            $table->float('discount', 8, 2)->nullable()->default(0);
             $table->timestamps();
         });
     }

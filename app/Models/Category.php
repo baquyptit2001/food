@@ -20,6 +20,11 @@ class Category extends Model
         'parent_name',
     ];
 
+    public function getRouteKeyName()
+    {
+        return 'slug';
+    }
+
     public function parent(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(Category::class, 'parent_id');

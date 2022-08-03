@@ -16,14 +16,14 @@
         <a-table :columns="columns" :data-source="categories.data" v-if="categories.data">
             <template #bodyCell="{ column, text, record }">
                 <template v-if="column.key === 'action'">
-                    <Link :href="route('categories.edit', record.id)">
+                    <Link :href="route('categories.edit', record.slug)">
                         <a-button type="primary" class="me-3">Sửa</a-button>
                     </Link>
                     <a-popconfirm
                         title="Bạn có thật sự muốn xóa danh mục này?"
                         ok-text="Xóa"
                         cancel-text="Hủy"
-                        @confirm="deleteCategory(record.id)"
+                        @confirm="deleteCategory(record.slug)"
                     >
                         <a-button type="danger">Xóa</a-button>
                     </a-popconfirm>

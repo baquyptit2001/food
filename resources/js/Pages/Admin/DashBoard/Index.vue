@@ -1,6 +1,6 @@
 <template>
     <AdminLayout ref="layout">
-        Hello World
+        Hello, {{ $page.props.user.name }}
     </AdminLayout>
 </template>
 
