@@ -4,7 +4,7 @@
             <a-typography-title>
                 Danh sách danh mục
             </a-typography-title>
-            <Link :href="route('categories.create')">
+            <Link :href="route('admin.categories.create')">
                 <a-button class="me-3">
                     <template #icon>
                         <plus-outlined/>
@@ -16,7 +16,7 @@
         <a-table :columns="columns" :data-source="categories.data" v-if="categories.data">
             <template #bodyCell="{ column, text, record }">
                 <template v-if="column.key === 'action'">
-                    <Link :href="route('categories.edit', record.slug)">
+                    <Link :href="route('admin.categories.edit', record.slug)">
                         <a-button type="primary" class="me-3">Sửa</a-button>
                     </Link>
                     <a-popconfirm
@@ -79,7 +79,7 @@ export default {
     },
     methods: {
         deleteCategory(id) {
-            this.$inertia.delete(route('categories.destroy', id))
+            this.$inertia.delete(route('admin.categories.destroy', id))
         }
     }
 }

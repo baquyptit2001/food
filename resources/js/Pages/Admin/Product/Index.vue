@@ -4,7 +4,7 @@
             <a-typography-title>
                 Danh sách món ăn
             </a-typography-title>
-            <Link :href="route('products.create')">
+            <Link :href="route('admin.products.create')">
                 <a-button class="me-3">
                     <template #icon>
                         <plus-outlined/>
@@ -16,7 +16,7 @@
         <a-table :columns="columns" :data-source="products.data" v-if="products.data">
             <template #bodyCell="{ column, text, record }">
                 <template v-if="column.key === 'action'">
-                    <Link :href="route('products.edit', record.slug)">
+                    <Link :href="route('admin.products.edit', record.slug)">
                         <a-button type="primary" class="me-3">Sửa</a-button>
                     </Link>
                     <a-popconfirm
@@ -41,6 +41,7 @@
 import AdminLayout from "../../../Layouts/AdminLayout.vue";
 import {Link} from '@inertiajs/inertia-vue3'
 import {PlusOutlined} from "@ant-design/icons-vue";
+import {notification} from "ant-design-vue";
 
 export default {
     name: "Index",
@@ -92,6 +93,24 @@ export default {
         document.title = "Danh sách món ăn"
         console.log(this.products.data);
     },
+    methods: {
+        deleteProduct(slug) {
+            this.$inertia.delete(route('admin.products.destroy', slug), {
+                onSuccess: () => {
+                    notification.success({
+                        message: 'Xóa thành công',
+                        description: 'Món ăn đã được xóa',
+                    });
+                },
+                onError: () => {
+                    notification.error({
+                        message: 'Xóa thất bại',
+                        description: 'Xóa món ăn thất bại',
+                    });
+                }
+            });
+        }
+    }
 }
 </script>
 

@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use App\Models\Role;
 use App\Models\User;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Hash;
@@ -55,7 +56,7 @@ class CreateSuperUser extends Command
         $save->name = $user->name;
         $save->email = $user->email;
         $save->password = Hash::make($user->password);
-        $save->role = 1;
+        $save->role_id = 1;
         $save->save();
         $this->info('User created successfully!');
         return 0;

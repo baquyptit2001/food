@@ -75,7 +75,7 @@
             </template>
             Thêm mới
         </a-button>
-        <Link :href="route('products.index')">
+        <Link :href="route('admin.products.index')">
             <a-button shape="round" size="middle" class="mt-3 ms-3">
                 <template #icon>
                     <rollback-outlined/>
@@ -170,7 +170,7 @@ export default {
                 });
                 return;
             }
-            this.form.post(route('products.store'), {})
+            this.form.post(route('admin.products.store'), {})
         },
         price_change() {
             if (this.form.price != undefined || !(isNaN(this.form.price))) {

@@ -71,7 +71,7 @@ class ProductController extends Controller
         $product->price = $request->price;
         $product->discount = $request->discount;
         $product->save();
-        return Redirect::route('products.index');
+        return Redirect::route('admin.products.index');
     }
 
     /**
@@ -117,7 +117,6 @@ class ProductController extends Controller
             'price' => 'required|numeric',
             'discount' => 'nullable|numeric',
         ]);
-        dd($request->all());
         if ($request->hasFile('image')) {
             $image = $request->file('image');
             $name = time() . '.' . $image->getClientOriginalExtension();
@@ -131,17 +130,25 @@ class ProductController extends Controller
         $product->price = $request->price;
         $product->discount = $request->discount;
         $product->save();
-        return Redirect::route('products.index');
+        return Redirect::route('admin.products.index');
     }
 
     /**
      * Remove the specified resource from storage.
      *
      * @param Product $product
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      */
-    public function destroy(Product $product)
+    public function destroy(Product $product): \Illuminate\Http\RedirectResponse
     {
-        //
+        // delete product image
+        if ($product->image) {
+            $image_path = public_path('/images/' . $product->image);
+            if (file_exists($image_path)) {
+                unlink($image_path);
+            }
+        }
+        $product->delete();
+        return Redirect::route('admin.products.index');
     }
 }

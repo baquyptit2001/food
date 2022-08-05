@@ -75,7 +75,7 @@
             </template>
             Cập nhật
         </a-button>
-        <Link :href="route('products.index')">
+        <Link :href="route('admin.products.index')">
             <a-button shape="round" size="middle" class="mt-3 ms-3">
                 <template #icon>
                     <rollback-outlined/>
@@ -141,6 +141,7 @@ export default {
     },
     methods: {
         uploadImage(event) {
+            console.log(event)
             let url = URL.createObjectURL(event.target.files[0]);
             $("#preview").attr("src", url);
         },
@@ -182,7 +183,7 @@ export default {
                 }
             }
             console.log(this.form);
-            this.form.put(route('products.update', this.product.data.slug), {
+            this.form.patch(route('admin.products.update', this.product.data.slug), {
                 onSuccess: () => {
                     notification.success({
                         message: "Thông báo",
@@ -190,7 +191,9 @@ export default {
                         duration: 2,
                     });
                 },
-                onError: () => {
+                onError: (e) => {
+                    console.log(this.form);
+                    console.log(e)
                     notification.error({
                         message: "Thông báo",
                         description: "Cập nhật thất bại",

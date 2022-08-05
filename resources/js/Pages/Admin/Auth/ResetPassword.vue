@@ -1,12 +1,6 @@
 <template>
     <AdminAuthLayout ref="layout">
         <a-form :label-col="labelCol" :wrapper-col="wrapperCol">
-            <a-form-item label="Display Name">
-                <a-input v-model:value="form.name"/>
-            </a-form-item>
-            <a-form-item label="Email">
-                <a-input v-model:value="form.email"/>
-            </a-form-item>
             <a-form-item label="Password">
                 <a-input type="password" v-model:value="form.password"/>
             </a-form-item>
@@ -14,7 +8,7 @@
                 <a-input type="password" v-model:value="form.password_confirmation"/>
             </a-form-item>
             <a-form-item :wrapper-col="{ span: 13, offset: 9 }">
-                <a-button shape="round" type="primary" @click.prevent="register">Đăng ký</a-button>
+                <a-button shape="round" type="primary" @click.prevent="resetPassword">Thay đổi</a-button>
                 <Link :href="route('admin.auth.login.page')">
                     <a-button shape="round" style="margin-left: 10px">Đăng nhập</a-button>
                 </Link>
@@ -24,57 +18,66 @@
 </template>
 
 <script>
-
-import {useForm, Link} from '@inertiajs/inertia-vue3'
-import AdminAuthLayout from '../../../Layouts/AdminAuthLayout.vue'
-import {getErrorMessage} from "../../../Helper/stringHelper";
+import AdminAuthLayout from "../../../Layouts/AdminAuthLayout.vue";
+import {Link, useForm} from "@inertiajs/inertia-vue3";
 import {notification} from "ant-design-vue";
+import {getErrorMessage} from "../../../Helper/stringHelper";
 
 export default {
-    name: "Register",
-    components: {useForm, Link, AdminAuthLayout},
+    name: "ResetPassword",
+    components: {AdminAuthLayout, Link},
     mounted() {
-        document.title = "Đăng ký";
-        this.$refs.layout.title = "Đăng ký";
+        document.title = "Thay đổi mật khẩu";
+        this.$refs.layout.title = "Thay đổi mật khẩu";
+    },
+    props: {
+        token: {
+            type: String,
+            required: true,
+        },
+        email: {
+            type: String,
+            required: true,
+        },
     },
     setup() {
         const form = useForm({
-            name: '',
-            email: '',
             password: '',
             password_confirmation: '',
+            token: '',
+            email: '',
         });
+
         return {
             form,
             labelCol: {
-                span: 6,
+                span: 7,
             },
             wrapperCol: {
-                span: 18,
+                span: 14,
             }
         };
     },
     methods: {
-        register() {
-            this.form.post(route('admin.auth.register'), {
+        resetPassword() {
+            this.form.token = this.token;
+            this.form.email = this.email;
+            this.form.post(route('admin.auth.reset-password'), {
                 onSuccess: (res) => {
                     notification.success({
-                        message: 'Đăng ký thành công',
-                        description: 'Bạn đã đăng ký thành công, vui lòng đăng nhập',
+                        message: "Thành công",
+                        description: "Mật khẩu đã được thay đổi",
                     });
                 },
-                onError: (errors) => {
+                onError: (res) => {
                     notification.error({
-                        message: 'Đăng ký thất bại',
-                        description: getErrorMessage(errors),
+                        message: "Lỗi",
+                        description: getErrorMessage(res),
                     });
-                }
+                },
             });
         },
-        reset() {
-            this.form.reset();
-        }
-    }
+    },
 }
 </script>
 

@@ -10,4 +10,11 @@ use Illuminate\Routing\Controller as BaseController;
 class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
+
+
+    public function __construct()
+    {
+        $ROLE_ADMIN = 1;
+        \Illuminate\Support\Facades\View::share(compact('ROLE_ADMIN'));
+    }
 }

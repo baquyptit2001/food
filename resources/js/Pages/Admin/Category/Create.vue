@@ -40,7 +40,7 @@
             </template>
             Thêm mới
         </a-button>
-        <Link :href="route('categories.index')">
+        <Link :href="route('admin.categories.index')">
             <a-button shape="round" size="middle" class="mt-3 ms-3">
                 <template #icon>
                     <rollback-outlined />
@@ -89,7 +89,7 @@ export default {
     },
     methods: {
         addCategory() {
-            this.form.post(route('categories.store'), {
+            this.form.post(route('admin.categories.store'), {
                 onSuccess: () => {
                     notification.success({
                         message: 'Thành công',

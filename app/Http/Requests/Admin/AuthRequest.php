@@ -26,9 +26,10 @@ class AuthRequest extends FormRequest
     {
         return [
             'name' => 'sometimes|required|string|max:255',
-            'email' => 'required|string|email|max:255',
-            'password' => 'required|string|min:8',
+            'email' => 'sometimes|required|string|email|max:255',
+            'password' => 'sometimes|required|string|min:8',
             'password_confirmation' => 'sometimes|required|string|min:8|same:password',
+            'token' => 'sometimes|required|string',
         ];
     }
 

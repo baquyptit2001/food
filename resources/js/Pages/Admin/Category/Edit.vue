@@ -39,7 +39,7 @@
             </template>
             Cập nhật
         </a-button>
-        <Link :href="route('categories.index')">
+        <Link :href="route('admin.categories.index')">
             <a-button shape="round" size="middle" class="mt-3 ms-3">
                 <template #icon>
                     <rollback-outlined/>
@@ -87,7 +87,7 @@ export default {
     },
     methods: {
         addCategory() {
-            this.form.put(route('categories.update', this.category.id), {
+            this.form.put(route('admin.categories.update', this.category.slug), {
                 onSuccess: () => {
                     notification.success({
                         message: 'Thành công',

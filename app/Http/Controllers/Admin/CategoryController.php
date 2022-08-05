@@ -57,7 +57,7 @@ class CategoryController extends Controller
         $category->description = $request->description;
         $category->parent_id = $request->parent_id;
         $category->save();
-        return Redirect::route('categories.index');
+        return Redirect::route('admin.categories.index');
     }
 
     /**
@@ -103,7 +103,7 @@ class CategoryController extends Controller
         $category->description = $request->description;
         $category->parent_id = $request->parent_id;
         $category->save();
-        return Redirect::route('categories.index');
+        return Redirect::route('admin.categories.index');
     }
 
     /**
@@ -115,6 +115,6 @@ class CategoryController extends Controller
     public function destroy(Category $category): RedirectResponse
     {
         $category->delete();
-        return Redirect::route('categories.index');
+        return Redirect::route('admin.categories.index');
     }
 }

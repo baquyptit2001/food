@@ -1,6 +1,6 @@
 <template>
     <AdminAuthLayout ref="layout">
-        <a-form :label-col="labelCol" :wrapper-col="wrapperCol">
+        <a-form :label-col="labelCol" :wrapper-col="wrapperCol" @submit.prevent="login" method="post">
             <a-form-item label="Email">
                 <a-input v-model:value="form.email"/>
             </a-form-item>
@@ -8,9 +8,14 @@
                 <a-input type="password" v-model:value="form.password"/>
             </a-form-item>
             <a-form-item :wrapper-col="{ span: 13, offset: 9 }">
-                <a-button shape="round" type="primary" @click.prevent="login">Đăng nhập</a-button>
-                <Link :href="route('auth.register.page')"><a-button shape="round" style="margin-left: 10px">Đăng ký</a-button></Link>
+                <a-button shape="round" type="primary" @click.prevent="login" id="btn-submit">Đăng nhập</a-button>
+                <Link :href="route('admin.auth.register.page')"><a-button shape="round" style="margin-left: 10px">Đăng ký</a-button></Link>
             </a-form-item>
+            <div class="w-100 text-center">
+                <Link :href="route('admin.auth.forgot-password.page')">
+                    Quên mật khẩu
+                </Link>
+            </div>
         </a-form>
     </AdminAuthLayout>
 </template>
@@ -20,6 +25,7 @@ import AdminAuthLayout from "../../../Layouts/AdminAuthLayout.vue";
 import {useForm, Link} from '@inertiajs/inertia-vue3'
 import {notification} from "ant-design-vue";
 import {getErrorMessage} from "../../../Helper/stringHelper";
+import $ from 'jquery';
 
 export default {
     name: "login",
@@ -27,6 +33,9 @@ export default {
     mounted() {
         document.title = "Đăng nhập";
         this.$refs.layout.title = "Đăng nhập";
+        $(document).ready(function () {
+            $('#btn-submit').removeAttr('type').attr('type', 'submit');
+        });
     },
     setup() {
         const form = useForm({
@@ -46,7 +55,7 @@ export default {
     },
     methods: {
         login() {
-            this.form.post(route('auth.login'), {
+            this.form.post(route('admin.auth.login'), {
                 onSuccess: () => {
                     notification.success({
                         message: 'Đăng nhập thành công',
