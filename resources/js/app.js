@@ -27,6 +27,7 @@ createInertiaApp({
             .use(plugin)
             .use(ZiggyVue, Ziggy)
             .use(Antd)
+            .use(store)
             .mount(el);
     },
 });

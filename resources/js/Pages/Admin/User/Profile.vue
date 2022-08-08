@@ -2,30 +2,41 @@
     <AdminLayout ref="layout">
         <a-descriptions title="Thông tin cá nhân" bordered>
             <a-descriptions-item label="Tên hiển thị">
-                {{ user.data.name }}
+                {{ userProfile.data.name }}
             </a-descriptions-item>
             <a-descriptions-item label="Email">
-                {{ user.data.email }}
+                {{ userProfile.data.email }}
             </a-descriptions-item>
             <a-descriptions-item label="Vị trí">
-                <a-tag :color="tagColor[0][user.data.role.name]">{{ user.data.role.name }}</a-tag>
+                <a-tag :color="tagColor[0][userProfile.data.role.name]">{{ userProfile.data.role.name }}</a-tag>
             </a-descriptions-item>
             <a-descriptions-item label="Trạng thái">
-                <a-badge :status="user.data.is_active ? 'success' : 'error'" :text="user.data.status"/>
+                <a-badge :status="userProfile.data.is_active ? 'success' : 'error'" :text="userProfile.data.status"/>
             </a-descriptions-item>
         </a-descriptions>
+        <Link v-if="$page.props.user.data.id === userProfile.data.id" :href="route('admin.users.update-page')">
+            <a-button class="mt-5" type="primary" shape="round" size="large">
+                <template #icon>
+                    <edit-outlined/>
+                </template>
+                Update
+            </a-button>
+        </Link>
+
     </AdminLayout>
 </template>
 
 <script>
 
 import AdminLayout from "../../../Layouts/AdminLayout.vue";
+import {EditOutlined} from "@ant-design/icons-vue";
+import {Link} from '@inertiajs/inertia-vue3'
 
 export default {
     name: "Profile",
-    components: {AdminLayout},
+    components: {AdminLayout, EditOutlined, Link},
     props: {
-        user: Object
+        userProfile: Object
     },
     setup() {
         const tagColor = [{

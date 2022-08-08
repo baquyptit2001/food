@@ -5,7 +5,7 @@
                 <a-input v-model:value="form.email"/>
             </a-form-item>
             <a-form-item :wrapper-col="{ span: 13, offset: 9 }">
-                <a-button shape="round" type="primary" @click.prevent="sendEmail">Gửi email</a-button>
+                <a-button shape="round" type="primary" @click.prevent="sendEmail" :loading="iconLoading">Gửi email</a-button>
                 <Link :href="route('admin.auth.login.page')">
                     <a-button shape="round" style="margin-left: 10px">Đăng nhập</a-button>
                 </Link>
@@ -43,20 +43,28 @@ export default {
         document.title = "Quên mật khẩu";
         this.$refs.layout.title = "Quên mật khẩu";
     },
+    data() {
+        return {
+            iconLoading: false,
+        };
+    },
     methods: {
         sendEmail() {
+            this.iconLoading = true;
             this.form.post(route('admin.auth.forgot-password'), {
                 onSuccess: () => {
                     notification.success({
                         message: 'Gửi email thành công',
                         description: 'Vui lòng kiểm tra email để thay đổi mật khẩu',
                     });
+                    this.iconLoading = false;
                 },
                 onError: (errors) => {
                     notification.error({
                         message: 'Gửi email thất bại',
                         description: getErrorMessage(errors),
                     });
+                    this.iconLoading = false;
                 },
             });
         },

@@ -6,7 +6,9 @@ use Closure;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Redirect;
+use Inertia\Inertia;
 
 class IsAdmin
 {
@@ -17,7 +19,7 @@ class IsAdmin
      * @param Closure(Request): (Response|RedirectResponse) $next
      * @return Response|RedirectResponse
      */
-    public function handle(Request $request, Closure $next): Response|RedirectResponse
+    public function handle(Request $request, Closure $next)
     {
         if (!in_array(auth()->user()->role_id, [1, 2])) {
             auth()->logout();

@@ -6,6 +6,7 @@ use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Routing\Controller as BaseController;
+use Inertia\Inertia;
 
 class Controller extends BaseController
 {
@@ -15,6 +16,6 @@ class Controller extends BaseController
     public function __construct()
     {
         $ROLE_ADMIN = 1;
-        \Illuminate\Support\Facades\View::share(compact('ROLE_ADMIN'));
+        Inertia::share(compact('ROLE_ADMIN'));
     }
 }

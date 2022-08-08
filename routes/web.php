@@ -15,30 +15,34 @@ use Illuminate\Support\Facades\Route;
 
 
 Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
-    Route::middleware(['auth', 'is_active'])->group(function () {
+    Route::middleware(['auth', 'is_active', 'is_admin'])->group(function () {
         Route::get('/', function () {
             return \Inertia\Inertia::render("Admin/DashBoard/Index");
         })->name('dashboard');
         Route::resource('categories', \App\Http\Controllers\Admin\CategoryController::class);
         Route::resource('products', \App\Http\Controllers\Admin\ProductController::class);
         Route::resource('roles', \App\Http\Controllers\Admin\RoleController::class);
-        Route::get('users', [\App\Http\Controllers\Admin\UserController::class, 'index'])->name('users.index');
-        Route::get('users/change-status/{user}', [\App\Http\Controllers\Admin\UserController::class, 'changeStatus'])->name('users.change-status');
-        Route::get('users/change-role/{user}', [\App\Http\Controllers\Admin\UserController::class, 'changeRole'])->name('users.change-role');
-        Route::get('users/{user}', [\App\Http\Controllers\Admin\UserController::class, 'profile'])->name('users.profile');
+        Route::group(['prefix' => 'users', 'as' => 'users.'], function () {
+            Route::get('', [\App\Http\Controllers\Admin\UserController::class, 'index'])->name('index');
+            Route::get('change-status/{user}', [\App\Http\Controllers\Admin\UserController::class, 'changeStatus'])->name('change-status');
+            Route::get('change-role/{user}', [\App\Http\Controllers\Admin\UserController::class, 'changeRole'])->name('change-role');
+            Route::get('{user}', [\App\Http\Controllers\Admin\UserController::class, 'profile'])->name('profile');
+            Route::get('profile/update', [\App\Http\Controllers\Admin\UserController::class, 'updatePage'])->name('update-page');
+            Route::put('profile/update', [\App\Http\Controllers\Admin\UserController::class, 'update'])->name('update');
+        });
     });
-    Route::group(['prefix' => 'auth'], function () {
-        Route::get('login', [\App\Http\Controllers\Admin\AuthController::class, 'login_page'])->name('auth.login.page');
-        Route::get('register', [\App\Http\Controllers\Admin\AuthController::class, 'register_page'])->name('auth.register.page');
-        Route::post('register', [\App\Http\Controllers\Admin\AuthController::class, 'register'])->name('auth.register');
-        Route::post('login', [\App\Http\Controllers\Admin\AuthController::class, 'login'])->name('auth.login');
-        Route::get('logout', [\App\Http\Controllers\Admin\AuthController::class, 'logout'])->name('auth.logout');
-        Route::get('forgot-password', [\App\Http\Controllers\Admin\AuthController::class, 'forgot_password_page'])->name('auth.forgot-password.page');
-        Route::post('forgot-password', [\App\Http\Controllers\Admin\AuthController::class, 'forgot_password'])->name('auth.forgot-password');
-        Route::get('reset-password/{token}/{email}', [\App\Http\Controllers\Admin\AuthController::class, 'reset_password_page'])->name('auth.reset-password.page');
-        Route::post('reset-password', [\App\Http\Controllers\Admin\AuthController::class, 'reset_password'])->name('auth.reset-password');
+    Route::group(['prefix' => 'auth', 'as' => 'auth.'], function () {
+        Route::get('login', [\App\Http\Controllers\Admin\AuthController::class, 'login_page'])->name('login.page');
+        Route::get('register', [\App\Http\Controllers\Admin\AuthController::class, 'register_page'])->name('register.page');
+        Route::post('register', [\App\Http\Controllers\Admin\AuthController::class, 'register'])->name('register');
+        Route::post('login', [\App\Http\Controllers\Admin\AuthController::class, 'login'])->name('login');
+        Route::get('logout', [\App\Http\Controllers\Admin\AuthController::class, 'logout'])->name('logout');
+        Route::get('forgot-password', [\App\Http\Controllers\Admin\AuthController::class, 'forgot_password_page'])->name('forgot-password.page');
+        Route::post('forgot-password', [\App\Http\Controllers\Admin\AuthController::class, 'forgot_password'])->name('forgot-password');
+        Route::get('reset-password/{token}/{email}', [\App\Http\Controllers\Admin\AuthController::class, 'reset_password_page'])->name('reset-password.page');
+        Route::post('reset-password', [\App\Http\Controllers\Admin\AuthController::class, 'reset_password'])->name('reset-password');
     });
 });
 
-Route::redirect('/', '/admin');
+//Route::redirect('/', '/admin');
 

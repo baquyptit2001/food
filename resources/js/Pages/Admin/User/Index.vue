@@ -14,7 +14,7 @@
                         {{ record.is_active ? 'Ban' : 'Unban' }}
                     </a-button>
                     <a-button type="primary" @click="changeRole(record.id)" :danger="record.role.id === 2" class="me-3"
-                              v-if="$page.props.user.data.role.id === 1 && record.id !== $page.props.user.id && [2, 3].includes(record.role.id)">
+                              v-if="$page.props.user.data.role.id === 1 && record.id !== $page.props.user.data.id && [2, 3].includes(record.role.id)">
                         {{ record.role.id === 2 ? 'Demote' : 'Promote' }}
                     </a-button>
                 </template>
@@ -23,6 +23,9 @@
                 </template>
                 <template v-if="column.key === 'status'">
                     <a-tag :danger="record.is_active">{{ record.status }}</a-tag>
+                </template>
+                <template v-if="column.key === 'name'">
+                    {{ record.name }} <span v-if="record.id === $page.props.user.data.id"> (you)</span>
                 </template>
             </template>
         </a-table>
@@ -54,7 +57,6 @@ export default {
             sorter: true
         }, {
             title: 'Tên hiển thị',
-            dataIndex: 'name',
             key: 'name',
             sorter: true
         }, {
@@ -86,7 +88,7 @@ export default {
 
         return {
             columns,
-            tagColor
+            tagColor,
         }
     },
     methods: {

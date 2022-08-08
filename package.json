@@ -21,6 +21,7 @@
         "jquery": "^3.6.0",
         "number-to-text-vietnamese": "^1.1.2",
         "vue": "^3.2.37",
+        "vue-request": "^1.2.4",
         "vuex": "^4.0.2"
     }
 }

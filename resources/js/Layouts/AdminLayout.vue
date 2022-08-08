@@ -1,6 +1,6 @@
 <template>
     <a-layout style="min-height: 100vh">
-        <a-layout-sider v-model:collapsed="collapsed" collapsible>
+        <a-layout-sider v-model:collapsed="collapsed" collapsible :onCollapse="(value) => sideCollapsed(value)">
             <div class="logo"/>
             <a-menu v-model:selectedKeys="selectedKeys" theme="dark" mode="inline">
                 <a-menu-item key="1">
@@ -8,10 +8,6 @@
                         <home-outlined/>
                         <span>Home</span>
                     </Link>
-                </a-menu-item>
-                <a-menu-item key="2">
-                    <desktop-outlined/>
-                    <span>Option 2</span>
                 </a-menu-item>
                 <a-sub-menu key="sub1">
                     <template #title>
@@ -128,12 +124,22 @@ export default defineComponent({
             breadItems: ref<string[]>(['Dashboard']),
         };
     },
+    mounted() {
+        this.setCollapsed();
+    },
     methods: {
         setSelected(selectedKeys: string[]) {
             this.selectedKeys = selectedKeys;
         },
         setBreadItems(breadItems: string[]) {
             this.breadItems = breadItems;
+        },
+        setCollapsed() {
+            this.collapsed = this.$store.getters.isCollapsed
+        },
+        sideCollapsed(value) {
+            this.$store.commit('toggleSidebar');
+            this.setCollapsed();
         }
     },
 });

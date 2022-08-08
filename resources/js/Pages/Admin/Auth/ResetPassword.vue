@@ -8,7 +8,7 @@
                 <a-input type="password" v-model:value="form.password_confirmation"/>
             </a-form-item>
             <a-form-item :wrapper-col="{ span: 13, offset: 9 }">
-                <a-button shape="round" type="primary" @click.prevent="resetPassword">Thay đổi</a-button>
+                <a-button shape="round" type="primary" @click.prevent="resetPassword" :loading="iconLoading">Thay đổi</a-button>
                 <Link :href="route('admin.auth.login.page')">
                     <a-button shape="round" style="margin-left: 10px">Đăng nhập</a-button>
                 </Link>
@@ -40,6 +40,11 @@ export default {
             required: true,
         },
     },
+    data() {
+        return {
+            iconLoading: false,
+        };
+    },
     setup() {
         const form = useForm({
             password: '',
@@ -60,6 +65,7 @@ export default {
     },
     methods: {
         resetPassword() {
+            this.iconLoading = true;
             this.form.token = this.token;
             this.form.email = this.email;
             this.form.post(route('admin.auth.reset-password'), {
@@ -74,6 +80,7 @@ export default {
                         message: "Lỗi",
                         description: getErrorMessage(res),
                     });
+                    this.iconLoading = false;
                 },
             });
         },

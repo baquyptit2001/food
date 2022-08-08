@@ -8,7 +8,7 @@
                 <a-input type="password" v-model:value="form.password"/>
             </a-form-item>
             <a-form-item :wrapper-col="{ span: 13, offset: 9 }">
-                <a-button shape="round" type="primary" @click.prevent="login" id="btn-submit">Đăng nhập</a-button>
+                <a-button shape="round" type="primary" @click.prevent="login" id="btn-submit" :loading="iconLoading">Đăng nhập</a-button>
                 <Link :href="route('admin.auth.register.page')"><a-button shape="round" style="margin-left: 10px">Đăng ký</a-button></Link>
             </a-form-item>
             <div class="w-100 text-center">
@@ -53,8 +53,14 @@ export default {
             }
         };
     },
+    data() {
+        return {
+            iconLoading: false,
+        };
+    },
     methods: {
         login() {
+            this.iconLoading = true;
             this.form.post(route('admin.auth.login'), {
                 onSuccess: () => {
                     notification.success({
@@ -67,6 +73,7 @@ export default {
                         message: 'Đăng nhập thất bại',
                         description: getErrorMessage(errors),
                     });
+                    this.iconLoading = false;
                 }
             });
         },
