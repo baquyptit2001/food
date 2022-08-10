@@ -44,5 +44,9 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
     });
 });
 
+Route::group(['as' => 'client.'], function () {
+    Route::get('/', [\App\Http\Controllers\Client\HomeController::class, 'index'])->name('home');
+});
+
 //Route::redirect('/', '/admin');
 

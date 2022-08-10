@@ -40,6 +40,7 @@ class HandleInertiaRequests extends Middleware
     {
         return array_merge(parent::share($request), [
             'user' => UserResource::make(auth()->user() ?? new User()),
+            'categories' => \App\Models\Category::where('parent_id', null)->with('children')->get(),
         ]);
     }
 }
