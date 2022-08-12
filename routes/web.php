@@ -22,6 +22,9 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
         Route::resource('categories', \App\Http\Controllers\Admin\CategoryController::class);
         Route::resource('products', \App\Http\Controllers\Admin\ProductController::class);
         Route::resource('roles', \App\Http\Controllers\Admin\RoleController::class);
+        Route::resource('news', \App\Http\Controllers\Admin\NewsController::class);
+        Route::resource('promotions', \App\Http\Controllers\Admin\PromotionController::class, ['except' => ['update']]);
+        Route::post('news/{news}', [\App\Http\Controllers\Admin\NewsController::class, 'update'])->name('news.update');
         Route::group(['prefix' => 'users', 'as' => 'users.'], function () {
             Route::get('', [\App\Http\Controllers\Admin\UserController::class, 'index'])->name('index');
             Route::get('change-status/{user}', [\App\Http\Controllers\Admin\UserController::class, 'changeStatus'])->name('change-status');
@@ -43,6 +46,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
         Route::post('reset-password', [\App\Http\Controllers\Admin\AuthController::class, 'reset_password'])->name('reset-password');
     });
 });
+
 
 Route::group(['as' => 'client.'], function () {
     Route::get('/', [\App\Http\Controllers\Client\HomeController::class, 'index'])->name('home');

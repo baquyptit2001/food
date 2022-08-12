@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use App\Models\Category;
 use App\Models\Role;
 use Illuminate\Console\Command;
 
@@ -31,6 +32,9 @@ class InitProject extends Command
         Role::create(['name' => 'ADMIN']);
         Role::create(['name' => 'MODERATOR']);
         Role::create(['name' => 'USER']);
+        Category::create(['name' => 'Món Việt']);
+        Category::create(['name' => 'Cơm', 'parent_id' => 1]);
+        Category::create(['name' => 'Bún, Phở', 'parent_id' => 1]);
         return 0;
     }
 }

@@ -51,6 +51,34 @@
                         <a-menu-item key="10">Create</a-menu-item>
                     </Link>
                 </a-sub-menu>
+                <a-sub-menu key="sub6">
+                    <template #title>
+                        <span>
+                          <percentage-outlined />
+                          <span>Promotion</span>
+                        </span>
+                    </template>
+                    <Link :href="route('admin.promotions.index')">
+                        <a-menu-item key="14">List</a-menu-item>
+                    </Link>
+                    <Link :href="route('admin.promotions.create')">
+                        <a-menu-item key="15">Create</a-menu-item>
+                    </Link>
+                </a-sub-menu>
+                <a-sub-menu key="sub5">
+                    <template #title>
+                        <span>
+                          <container-outlined />
+                          <span>News</span>
+                        </span>
+                    </template>
+                    <Link :href="route('admin.news.index')">
+                        <a-menu-item key="12">List</a-menu-item>
+                    </Link>
+                    <Link :href="route('admin.news.create')">
+                        <a-menu-item key="13">Create</a-menu-item>
+                    </Link>
+                </a-sub-menu>
                 <a-sub-menu key="sub4">
                     <template #title>
                         <span>
@@ -98,6 +126,8 @@ import {
     HomeOutlined,
     AppleOutlined,
     FolderOutlined,
+    ContainerOutlined,
+    PercentageOutlined,
     SafetyCertificateOutlined,
 } from '@ant-design/icons-vue';
 import {defineComponent, ref} from 'vue';
@@ -113,6 +143,8 @@ export default defineComponent({
         HomeOutlined,
         FolderOutlined,
         AppleOutlined,
+        ContainerOutlined,
+        PercentageOutlined,
         SafetyCertificateOutlined,
         Link
     },
