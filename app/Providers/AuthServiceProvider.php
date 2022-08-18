@@ -27,7 +27,11 @@ class AuthServiceProvider extends ServiceProvider
         $this->registerPolicies();
 
         ResetPassword::createUrlUsing(function ($user, string $token) {
-            return route('admin.auth.reset-password.page', [
+            $routeName = 'admin.auth.reset-password.page';
+            if ($user->role_id >= 3) {
+                $routeName = 'client.auth.reset-password.page';
+            }
+            return route($routeName, [
                 'token' => $token,
                 'email' => $user->getEmailForPasswordReset(),
             ]);

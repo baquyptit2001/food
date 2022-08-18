@@ -1,7 +1,7 @@
 <template>
     <AdminLayout ref="layout">
         <a-typography-title>
-            Thêm mới mã giảm giá
+            Cập nhật mã giảm giá
         </a-typography-title>
         <div class="row">
             <div class="col-md-6">
@@ -16,12 +16,13 @@
                         <a-typography-title :level="5">
                             Mức giảm giá
                         </a-typography-title>
-                        <a-input-number v-model:value="form.discount">
+                        <a-input-number v-model:value="form.discount" @change="numberToText">
                             <template #addonAfter>
                                 <span v-if="form.type">VND</span>
                                 <span v-else>%</span>
                             </template>
                         </a-input-number>
+                        <div v-if="discount_text !== ''">{{ discount_text }}</div>
                     </div>
                     <div class="col-6">
                         <a-typography-title :level="5">
@@ -61,21 +62,23 @@
                 <a-typography-title :level="5">
                     Giá trị đơn hàng tối thiểu
                 </a-typography-title>
-                <a-input-number v-model:value="form.minimum_price" style="width: 200px" min="0" :controls="false">
+                <a-input-number v-model:value="form.minimum_price" style="width: 200px" min="0" :controls="false" @change="numberToText">
                     <template #addonAfter>
                         VNĐ
                     </template>
                 </a-input-number>
+                <div v-if="min_price_text !== ''">{{ min_price_text }}</div>
             </div>
             <div class="col-md-6 mt-2">
                 <a-typography-title :level="5">
                     Giảm tối đa
                 </a-typography-title>
-                <a-input-number v-model:value="form.maximum_discount" style="width: 200px" min="0" :controls="false">
+                <a-input-number v-model:value="form.maximum_discount" style="width: 200px" min="0" :controls="false" @change="numberToText">
                     <template #addonAfter>
                         VNĐ
                     </template>
                 </a-input-number>
+                <div v-if="max_discount_text !== ''">{{ max_discount_text }}</div>
             </div>
         </div>
         <a-button type="primary" shape="round" size="middle" class="mt-3" @click="addPromotion" :loading="loading">
@@ -103,6 +106,8 @@ import {PlusOutlined, RollbackOutlined} from "@ant-design/icons-vue";
 import {reactive} from "vue";
 import {notification} from "ant-design-vue";
 import {getErrorMessage} from "../../../Helper/stringHelper";
+import {getText} from "number-to-text-vietnamese";
+import {isNaN} from "lodash";
 
 export default {
     name: "Create",
@@ -111,6 +116,7 @@ export default {
         this.$refs.layout.setBreadItems(["Promotions", "Create"]);
         this.$refs.layout.setSelected(["15"]);
         document.title = "Create Promotions";
+        this.numberToText();
     },
     setup() {
         const form = useForm({
@@ -142,6 +148,9 @@ export default {
         return {
             isLimit: false,
             loading: false,
+            discount_text: '',
+            min_price_text: '',
+            max_discount_text: '',
         };
     },
     methods: {
@@ -164,6 +173,9 @@ export default {
                     this.loading = false;
                     return 0;
                 }
+            }
+            if (!this.isLimit) {
+                this.form.maximum_uses = null;
             }
             this.form.start_date = this.getDate(this.form.rangeDate[0]);
             this.form.end_date = this.getDate(this.form.rangeDate[1]);
@@ -188,6 +200,23 @@ export default {
         },
         getDate(date) {
             return new Date(date.$d.toJSON()).toLocaleDateString("en-US");
+        },
+        numberToText() {
+            if(this.form.maximum_discount != null && !isNaN(this.form.maximum_discount)) {
+                this.max_discount_text = getText(this.form.maximum_discount, ', ');
+            } else {
+                this.max_discount_text = '';
+            }
+            if(this.form.discount != null && !isNaN(this.form.discount)) {
+                this.discount_text = getText(this.form.discount, ', ');
+            } else {
+                this.discount_text = '';
+            }
+            if(this.form.minimum_price != null && !isNaN(this.form.minimum_price)) {
+                this.min_price_text = getText(this.form.minimum_price, ', ');
+            } else {
+                this.min_price_text = '';
+            }
         }
     },
 }

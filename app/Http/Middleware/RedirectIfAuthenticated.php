@@ -16,7 +16,7 @@ class RedirectIfAuthenticated
      * Handle an incoming request.
      *
      * @param Request $request
-     * @param Closure(\Illuminate\Http\Request): (\Illuminate\Http\Response|\Illuminate\Http\RedirectResponse)  $next
+     * @param Closure(Request): (Response|RedirectResponse)  $next
      * @param  string|null  ...$guards
      * @return Response|RedirectResponse
      */
@@ -26,6 +26,9 @@ class RedirectIfAuthenticated
 
         foreach ($guards as $guard) {
             if (Auth::guard($guard)->check()) {
+                if (\auth()->user()->role_id > 2) {
+                    return redirect()->route('client.home');
+                }
                 return Redirect::route('admin.dashboard');
             }
         }

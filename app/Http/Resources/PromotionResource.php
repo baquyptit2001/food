@@ -17,7 +17,11 @@ class PromotionResource extends JsonResource
      */
     public function toArray($request): array|JsonSerializable|Arrayable
     {
-        return array([
+        $postFix = '';
+        if ($this->maximum_uses != null) {
+            $postFix = ' (' . round($this->used / $this->maximum_uses) . '%)';
+        }
+        return array(
             'id' => $this->id,
             'name' => $this->name,
             'description' => $this->description,
@@ -27,10 +31,11 @@ class PromotionResource extends JsonResource
             'minimum_price' => $this->minimum_price,
             'maximum_discount' => $this->maximum_discount,
             'maximum_uses' => $this->maximum_uses,
-            'type_text' => $this->type ? 'Cố định' : 'Theo phần trăm',
+            'type_text' => $this->type ? ' VND' : '%',
             'type' => $this->type,
-            'used' => $this->used,
+            'used' => $this->used . $postFix,
             'status' => ($this->maximum_uses and $this->used >= $this->maximum_uses) ? 0 : 1,
-        ]);
+            'status_text' => ($this->maximum_uses and $this->used >= $this->maximum_uses) ? 'Không khả dụng' : 'Có thể sử dụng',
+        );
     }
 }

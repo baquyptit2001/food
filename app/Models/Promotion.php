@@ -18,6 +18,7 @@ class Promotion extends Model
         'minimum_price',
         'maximum_discount',
         'maximum_uses',
+        'used',
         'type',
     ];
 

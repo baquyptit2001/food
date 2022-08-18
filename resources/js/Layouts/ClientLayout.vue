@@ -1,9 +1,9 @@
 <template>
-    <Header :current="current" />
+    <Header :current="current"/>
     <div class="container">
         <slot/>
     </div>
-    <Footer />
+    <Footer/>
 </template>
 <script>
 import {ref} from 'vue';
@@ -26,6 +26,8 @@ export default {
 };
 </script>
 
-<style scoped>
-
+<style>
+a {
+    color: inherit;
+}
 </style>

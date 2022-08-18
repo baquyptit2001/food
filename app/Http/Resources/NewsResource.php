@@ -20,6 +20,7 @@ class NewsResource extends JsonResource
             'description' => $this->description,
             'image' => env('IMAGE_URL') . 'news/' . $this->image,
             'slug' => $this->slug,
+            'created_at' => date('d/m/Y', strtotime($this->created_at)),
         );
     }
 }

@@ -34,7 +34,9 @@
             </template>
             <template #title>Trang</template>
             <a-menu-item key="page:1">Đặt món</a-menu-item>
-            <a-menu-item key="page:2">Ưu đãi</a-menu-item>
+            <a-menu-item key="page:2">
+                <Link :href="route('client.news.index')">Ưu đãi</Link>
+            </a-menu-item>
             <a-menu-item key="page:3">Liên lạc</a-menu-item>
             <a-menu-item key="page:4">Địa chỉ</a-menu-item>
         </a-sub-menu>
@@ -48,15 +50,32 @@
             <a-menu-item key="social:3">TikTok</a-menu-item>
             <a-menu-item key="social:4">YouTube</a-menu-item>
         </a-sub-menu>
-        <a-menu-item class="hihi" style="cursor: default; margin-left: auto; margin-right: 55px; padding-top: 5px">
+        <a-menu-item class="hihi" style="cursor: default; margin-left: auto; padding-top: 5px">
             <a-input placeholder="Search"/>
-            <a-badge count="5" style="margin-left: 10px">
-                <Link>
-                    <a-button type="link" size="small">
-                        <shopping-cart-outlined style="font-size: 30px; cursor:pointer;color: black"/>
-                    </a-button>
+            <!--                        <a-badge count="5" style="margin-left: 10px">-->
+            <!--                            <Link>-->
+            <!--                                <a-button type="link" size="small">-->
+            <!--                                    <shopping-cart-outlined style="font-size: 30px; cursor:pointer;color: black"/>-->
+            <!--                                </a-button>-->
+            <!--                            </Link>-->
+            <!--                        </a-badge>-->
+        </a-menu-item>
+        <a-sub-menu key="info" v-if="$page.props.user.data.id">
+            <template #title>Hello, {{ $page.props.user.data.name }}</template>
+            <a-menu-item key="info:1">Profile</a-menu-item>
+            <a-menu-item key="info:2">Giỏ hàng</a-menu-item>
+<!--            <a-divider/>-->
+            <a-menu-item key="info:3">
+                <Link :href="route('client.auth.logout')">
+                    Đăng xuất
                 </Link>
-            </a-badge>
+            </a-menu-item>
+        </a-sub-menu>
+        <a-menu-item key="login" v-else>
+            <Link :href="route('client.auth.login.page')">
+                <qq-outlined/>
+                Đăng nhập
+            </Link>
         </a-menu-item>
     </a-menu>
 </template>
@@ -70,6 +89,7 @@ import {
     HomeOutlined,
     AppleFilled,
     ShoppingCartOutlined,
+    QqOutlined,
     GlobalOutlined
 } from '@ant-design/icons-vue';
 import {Link} from '@inertiajs/inertia-vue3'
@@ -84,6 +104,7 @@ export default {
         AppleFilled,
         ShoppingCartOutlined,
         GlobalOutlined,
+        QqOutlined,
         Link
     },
     mounted() {
