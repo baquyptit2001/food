@@ -2,14 +2,7 @@
     <ClientLayout ref="layout">
         <Hero/>
         <ProductModal ref="modal"/>
-        <div class="hero-banner">
-            <img src="@/assets/hero/herobanner.jpg" style="margin-top: 15px; width: 100%"/>
-            <a-input placeholder="Search" class="input-search shadow">
-                <template #prefix>
-                    <search-outlined/>
-                </template>
-            </a-input>
-        </div>
+        <Search/>
         <div class="banner">
             <img src="@/assets/hero/banner.jpg" style="margin-top: 15px; width: 100%">
         </div>
@@ -33,7 +26,7 @@
                     </template>
                     <a-card-meta>
                         <template #title>
-                            <Link>
+                            <Link :href="route('client.products.show', product.slug)">
                                 <a-typography-text strong class="d-block">{{ product.name }}</a-typography-text>
                             </Link>
                             <a-typography-text delete type="secondary" v-if="product.discount">
@@ -63,10 +56,12 @@ import {
 } from "@ant-design/icons-vue";
 import {Link} from '@inertiajs/inertia-vue3';
 import ProductModal from "../../../Component/Client/Home/ProductModal.vue";
+import Search from "../../../Component/Client/Home/Search.vue";
 
 export default {
     name: "Index",
     components: {
+        Search,
         ProductModal,
         ClientLayout,
         Hero,
@@ -95,21 +90,5 @@ export default {
 </script>
 
 <style scoped>
-.hero-banner {
-    position: relative;
-}
 
-.hero-banner img {
-    filter: blur(4px);
-}
-
-.input-search {
-    position: absolute;
-    top: 20%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 50%;
-    border: none;
-    border-radius: 15px;
-}
 </style>

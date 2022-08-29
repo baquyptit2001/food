@@ -7,6 +7,7 @@ use App\Http\Controllers\Admin\PromotionController;
 use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Client\AuthController;
+use App\Http\Controllers\Client\CartController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -57,7 +58,14 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
 
 Route::group(['as' => 'client.'], function () {
     Route::get('/', [\App\Http\Controllers\Client\HomeController::class, 'index'])->name('home');
-    Route::get('news', [\App\Http\Controllers\Client\NewsController::class, 'index'])->name('news.index');
+    Route::group(['prefix' => 'news', 'as' => 'news.'], function () {
+        Route::get('', [\App\Http\Controllers\Client\NewsController::class, 'index'])->name('index');
+        Route::get('{news}', [\App\Http\Controllers\Client\NewsController::class, 'show'])->name('show');
+    });
+    Route::resource('carts', CartController::class);
+    Route::resource('products', \App\Http\Controllers\Client\ProductController::class);
+    Route::get('checkout', [\App\Http\Controllers\Client\CartController::class, 'checkout'])->name('carts.checkout');
+    Route::post('user_info', [\App\Http\Controllers\Client\CartController::class, 'addAddress'])->name('carts.user_info.store');
     Route::group(['prefix' => 'auth', 'as' => 'auth.'], function () {
         Route::get('login', [AuthController::class, 'login_page'])->name('login.page');
         Route::post('login', [AuthController::class, 'login'])->name('login');

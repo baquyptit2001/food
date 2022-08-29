@@ -15,4 +15,11 @@ class NewsController extends Controller
         $news = NewsResource::collection(News::all()->sortByDesc("id"));
         return Inertia::render('Client/News/Index', compact('news'));
     }
+
+    public function show(News $news): \Inertia\Response
+    {
+        return Inertia::render('Client/News/Show', [
+            'news' => new NewsResource($news),
+        ]);
+    }
 }

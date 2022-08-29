@@ -11,17 +11,17 @@
             </Link>
         </a-menu-item>
         <a-menu-item key="app">
-            <template #icon>
+            <Link>
                 <appstore-outlined/>
-            </template>
-            Menu
+                Menu
+            </Link>
         </a-menu-item>
         <a-sub-menu key="category">
             <template #icon>
                 <apple-filled/>
             </template>
             <template #title>Danh mục</template>
-            <a-menu-item-group v-for="category in $page.props.categories" :title="category.name">
+            <a-menu-item-group v-for="category in $page.props.categories.data" :title="category.name">
                 <a-menu-item v-for="child in category.children" :key="'category:' + child.id">{{
                         child.name
                     }}
@@ -63,8 +63,12 @@
         <a-sub-menu key="info" v-if="$page.props.user.data.id">
             <template #title>Hello, {{ $page.props.user.data.name }}</template>
             <a-menu-item key="info:1">Profile</a-menu-item>
-            <a-menu-item key="info:2">Giỏ hàng</a-menu-item>
-<!--            <a-divider/>-->
+            <a-menu-item key="info:2">
+                <Link :href="route('client.carts.index')">
+                    Giỏ hàng
+                </Link>
+            </a-menu-item>
+            <a-divider style="margin: 0"></a-divider>
             <a-menu-item key="info:3">
                 <Link :href="route('client.auth.logout')">
                     Đăng xuất

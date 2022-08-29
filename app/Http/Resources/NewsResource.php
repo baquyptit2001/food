@@ -2,6 +2,8 @@
 
 namespace App\Http\Resources;
 
+use Illuminate\Contracts\Support\Arrayable;
+use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class NewsResource extends JsonResource
@@ -9,10 +11,10 @@ class NewsResource extends JsonResource
     /**
      * Transform the resource into an array.
      *
-     * @param \Illuminate\Http\Request $request
-     * @return array|\Illuminate\Contracts\Support\Arrayable|\JsonSerializable
+     * @param Request $request
+     * @return array
      */
-    public function toArray($request)
+    public function toArray($request): array
     {
         return array(
             'id' => $this->id,
@@ -20,7 +22,7 @@ class NewsResource extends JsonResource
             'description' => $this->description,
             'image' => env('IMAGE_URL') . 'news/' . $this->image,
             'slug' => $this->slug,
-            'created_at' => date('d/m/Y', strtotime($this->created_at)),
+            'created_at' => $this->created_at->diffForHumans(),
         );
     }
 }

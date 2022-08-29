@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use JsonSerializable;
 
-class CategoryResource extends JsonResource
+class CartResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -17,13 +17,14 @@ class CategoryResource extends JsonResource
      */
     public function toArray($request): array|JsonSerializable|Arrayable
     {
-        return [
+        return array(
             'id' => $this->id,
-            'name' => $this->name,
-            'slug' => $this->slug,
-            'description' => $this->description,
-            'parent' => $this->parent_name,
-            'children' => $this->children,
-        ];
+            'key' => $this->id,
+            'user' => UserResource::make($this->user),
+            'product' => ProductResource::make($this->product),
+            'quantity' => $this->quantity,
+            'created_at' => $this->created_at,
+            'updated_at' => $this->updated_at,
+        );
     }
 }

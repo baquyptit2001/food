@@ -57,4 +57,9 @@ class User extends Authenticatable
     {
         return $this->belongsTo(Role::class, 'role_id');
     }
+
+    public function userInfos(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(UserInfo::class);
+    }
 }

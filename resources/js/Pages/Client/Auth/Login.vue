@@ -15,7 +15,7 @@
                             <a-input type="password" v-model:value="form.password"/>
                         </a-form-item>
                         <a-form-item :wrapper-col="{ span: 13, offset: 9 }">
-                            <a-button shape="round" type="primary" @click.prevent="login" id="btn-submit"
+                            <a-button shape="round" type="primary" @click.prevent="login" id="btn-submit" htmlType="submit"
                                       :loading="iconLoading">Đăng nhập
                             </a-button>
                             <Link :href="route('client.auth.register.page')">
