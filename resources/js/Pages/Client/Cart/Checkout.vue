@@ -6,7 +6,7 @@
             </a-button>
         </div>
         <!--        <AddressModal ref="modal"/>-->
-        <AddressListModal ref="list" :tinhs="tinhs" :addresses="addresses.data"/>
+        <AddressListModal ref="list" :tinhs="tinhs" :addresses="addresses.data" @updateDefaultAddress="setForm"/>
         <div class="row pt-5">
             <div class="col-lg-6 text-left">
                 <a-form-item label="Người nhận">
@@ -51,6 +51,12 @@
             </div>
         </div>
         <div class="row justify-content-center">
+            <a-button style="margin-right: 15px;width: 100px" @click="checkout" shape="round">
+                <Link :href="route('client.carts.index')">
+                    <rollback-outlined />
+                    Trở về
+                </Link>
+            </a-button>
             <a-button style="width: 150px;" type="primary" @click="checkout" shape="round">
                 <ShoppingCartOutlined/>
                 Thanh toán
@@ -63,12 +69,13 @@
 import ClientLayout from "../../../Layouts/ClientLayout.vue";
 import AddressModal from "../../../Component/Client/Cart/AddressModal.vue";
 import {useForm} from "@inertiajs/inertia-vue3";
-import {ShoppingCartOutlined} from "@ant-design/icons-vue";
+import {ShoppingCartOutlined, RollbackOutlined} from "@ant-design/icons-vue";
 import AddressListModal from "../../../Component/Client/Cart/AddressListModal.vue";
+import {Link} from "@inertiajs/inertia-vue3";
 
 export default {
     name: "Checkout",
-    components: {AddressListModal, AddressModal, ClientLayout, ShoppingCartOutlined},
+    components: {AddressListModal, AddressModal, ClientLayout, ShoppingCartOutlined, Link, RollbackOutlined},
     props: {
         tinhs: {
             type: Array,
@@ -131,7 +138,7 @@ export default {
             this.form.tinh = selectedAddress.tinh.name;
             this.form.huyen = selectedAddress.quan.name;
             this.form.xa = selectedAddress.xa.name;
-        }
+        },
     },
 
 }

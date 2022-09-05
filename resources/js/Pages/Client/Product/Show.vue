@@ -1,6 +1,6 @@
 <template>
     <ClientLayout ref="layout">
-        <ProductModal ref="modal" />
+        <ProductModal ref="modal"/>
         <a-page-header
             style="border: 1px solid rgb(235, 237, 240); margin-top: 15px"
             :title="product.data.name"
@@ -36,7 +36,7 @@
                             min="1"
                         />
                     </div>
-                    <a-button type="primary" @click="addToCart" shape="round">
+                    <a-button type="primary" @click="addToCart" shape="round" :loading="loading">
                         <ShoppingCartOutlined/>
                         Thêm vào giỏ hàng
                     </a-button>
@@ -91,6 +91,7 @@ import {
 } from "@ant-design/icons-vue";
 import {useForm, Link} from '@inertiajs/inertia-vue3';
 import ProductModal from "../../../Component/Client/Home/ProductModal.vue";
+import {notification} from "ant-design-vue";
 
 export default {
     name: "Show",
@@ -103,21 +104,49 @@ export default {
     },
     setup() {
         const form = useForm({
-            quantity: 1
+            quantity: 1,
+            product_id: null
         })
 
         return {
             form,
         }
     },
+    data() {
+        return {
+            loading: false,
+        }
+    },
     mounted() {
         this.$refs.layout.setCurrent(["asdf"]);
+        this.form.product_id = this.product.data.id;
         document.title = "Vạn món ngon, bon cả mồm";
     },
     methods: {
         openModal(product) {
             this.$refs.modal.visible = true;
             this.$refs.modal.product = product;
+        },
+        addToCart() {
+            this.loading = true;
+            this.form.post(route('client.carts.store'), {
+                preserveScroll: true,
+                onSuccess: () => {
+                    notification.success({
+                        message: 'Thêm vào giỏ hàng thành công',
+                        description: 'Bạn có thể xem giỏ hàng để tiến hành thanh toán',
+                    });
+                },
+                onError: () => {
+                    notification.error({
+                        message: 'Thêm vào giỏ hàng thất bại',
+                        description: 'Vui lòng thử lại',
+                    });
+                },
+                onFinish: () => {
+                    this.loading = false;
+                }
+            })
         }
     }
 }

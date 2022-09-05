@@ -15,7 +15,7 @@ class QuanResource extends JsonResource
     public function toArray($request)
     {
         return array(
-            'id' => $this->maqh,
+            'id' => str_pad($this->maqh, 3, '0', STR_PAD_LEFT),
             'name' => $this->name,
 //            'tinh' => TinhResource::make($this->tinh),
             'xa' => XaResource::collection($this->xa),

@@ -6,7 +6,6 @@
             sub-title="Vui lòng kiểm tra kỹ giỏ hàng trước khi thanh toán"
         />
         <a-table
-            :row-selection="{ selectedRowKeys: selectedRowKeys, onChange: onSelectChange }"
             :columns="columns"
             :data-source="carts.data"
         >
@@ -80,33 +79,9 @@ export default {
             title: 'Action',
             key: 'action',
         }];
-        const state = reactive({
-            selectedRowKeys: [],
-            // Check here to configure the default column
-            loading: false,
-        });
-        const hasSelected = computed(() => state.selectedRowKeys.length > 0);
-
-        const start = () => {
-            state.loading = true; // ajax request after empty completing
-
-            setTimeout(() => {
-                state.loading = false;
-                state.selectedRowKeys = [];
-            }, 1000);
-        };
-
-        const onSelectChange = selectedRowKeys => {
-            console.log('selectedRowKeys changed: ', selectedRowKeys);
-            state.selectedRowKeys = selectedRowKeys;
-        };
 
         return {
             columns,
-            hasSelected,
-            ...toRefs(state),
-            start,
-            onSelectChange,
         };
     },
     methods: {

@@ -12,6 +12,7 @@ use App\Models\Tinh;
 use App\Models\UserInfo;
 use App\Models\Xa;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -97,5 +98,71 @@ class CartController extends Controller
         }
         $userInfo->save();
         return redirect()->route('client.carts.checkout');
+    }
+
+    public function deleteAddress(UserInfo $address): \Illuminate\Http\RedirectResponse
+    {
+        $address->delete();
+        return redirect()->route('client.carts.checkout');
+    }
+
+    public function setDefaultAddress(Request $request): \Illuminate\Http\RedirectResponse
+    {
+        $user = $request->user();
+        $address = UserInfo::where([
+            ['user_id', $user->id],
+            ['is_default', 1]
+        ])->first();
+        if ($address) {
+            $address->is_default = 0;
+            $address->save();
+        }
+        $address = UserInfo::find($request->id);
+        $address->is_default = 1;
+        $address->save();
+        return redirect()->route('client.carts.checkout');
+    }
+
+
+    public function updateAddress(Request $request, UserInfo $address): \Illuminate\Http\RedirectResponse
+    {
+        $request->validate([
+            'address' => 'required',
+            'receiver' => 'required',
+            'phone' => 'required|numeric',
+            'matp' => 'required',
+            'maqh' => 'required',
+            'xaid' => 'required',
+        ]);
+        $address->address = $request->address;
+        $address->receiver = $request->receiver;
+        $address->phone = $request->phone;
+        $address->matp = $request->matp;
+        $address->maqh = $request->maqh;
+        $address->xaid = $request->xaid;
+        $address->save();
+        return redirect()->route('client.carts.checkout');
+    }
+
+    public function store(Request $request)
+    {
+        $request->validate([
+            'product_id' => 'required|exists:products,id',
+            'quantity' => 'required|numeric|min:1',
+        ]);
+        $cart = Cart::where([
+            ['user_id', auth()->id()],
+            ['product_id', $request->product_id]
+        ])->first();
+        if ($cart) {
+            $cart->quantity += $request->quantity;
+        } else {
+            $cart = new Cart();
+            $cart->user_id = auth()->id();
+            $cart->product_id = $request->product_id;
+            $cart->quantity = $request->quantity;
+        }
+        $cart->save();
+        return Redirect::back();
     }
 }

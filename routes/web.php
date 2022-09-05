@@ -66,6 +66,9 @@ Route::group(['as' => 'client.'], function () {
     Route::resource('products', \App\Http\Controllers\Client\ProductController::class);
     Route::get('checkout', [\App\Http\Controllers\Client\CartController::class, 'checkout'])->name('carts.checkout');
     Route::post('user_info', [\App\Http\Controllers\Client\CartController::class, 'addAddress'])->name('carts.user_info.store');
+    Route::put('user_info', [\App\Http\Controllers\Client\CartController::class, 'setDefaultAddress'])->name('carts.update.user_info');
+    Route::put('user_info/{address}', [\App\Http\Controllers\Client\CartController::class, 'updateAddress'])->name('carts.update.user_info_address');
+    Route::delete('user_info/{address}', [\App\Http\Controllers\Client\CartController::class, 'deleteAddress'])->name('carts.delete.user_info');
     Route::group(['prefix' => 'auth', 'as' => 'auth.'], function () {
         Route::get('login', [AuthController::class, 'login_page'])->name('login.page');
         Route::post('login', [AuthController::class, 'login'])->name('login');
